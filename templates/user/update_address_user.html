@@ -1,0 +1,113 @@
+{% extends 'user/userbase.html' %}
+{% block content %}
+
+<section class="h-100 h-custom" style="background-color: #8fc4b7;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <!-- <div class="card rounded-3">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+              class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+              alt="Sample photo">
+            <div class="card-body p-4 p-md-5"> -->
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Add Address</h3>
+              <a href="/userprofile"> <button class="btn btn-danger">Back to Profile</button> </a>
+            <form class="px-md-2" method="POST">
+              {% for message in messages %}
+              <p><span class="text-danger">{{message}}</span></p>
+              {%endfor%} 
+              {% csrf_token %}
+              <form action="#" class="billing-form">
+                <h3 class="mb-4 billing-heading">Update Details</h3>
+      <div class="row align-items-end">
+          <div class="col-md-6">
+        <div class="form-group">
+            <label for="firstname">Name</label>
+          <input type="text" name="name" class="form-control" value="{{item.name}}">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <label for="House name">House Name</label>
+          <input type="text" name="house_name" class="form-control" value="{{item.house_name}}" placeholder="">
+        </div>
+    </div>
+    <div class="w-100"></div>
+        <!-- <div class="col-md-12">
+            <div class="form-group">
+                <label for="country">State / Country</label>
+                <div class="select-wrap">
+              <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+              <select name="" id="" class="form-control">
+                  <option value="">France</option>
+                <option value="">Italy</option>
+                <option value="">Philippines</option>
+                <option value="">South Korea</option>
+                <option value="">Hongkong</option>
+                <option value="">Japan</option>
+              </select>
+            </div>
+            </div>
+        </div> -->
+        <div class="w-100"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+            <label for="streetaddress">Street name</label>
+          <input type="text" name="street_name" class="form-control" value="{{item.street_name}}">
+        </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="streetaddress">Landmark</label>
+          <input type="text" name="landmark" class="form-control" value="{{item.landmark}}">
+        </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+            <label for="towncity">City</label>
+          <input type="text" name="city" class="form-control" value="{{item.city}}">
+        </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="postcodezip">Pincode</label>
+          <input type="text" name="pin" class="form-control" value="{{item.pin_code}}">
+        </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-md-12">
+        <div class="form-group">
+            <label for="phone">Phone</label>
+          <input type="text" name="phone" class="form-control" value="{{item.phone_number}}">
+        </div>
+      </div>
+    
+    </div>
+    <input type="submit">
+  </form>
+                
+            </form>
+           
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-8 ftco-animate">
+       
+            
+
+
+           
+      </div>
+    </div>
+  </section> <!-- .section -->
+
+
+{% endblock %}

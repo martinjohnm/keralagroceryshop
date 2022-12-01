@@ -1,0 +1,292 @@
+{% extends 'user/userbase.html' %}
+{% block content %}
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2 text-center">
+          <div class="breadcrumb-text">
+            <div class="mt-5">
+              <h1 style="color: green;">User profile</h1>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  
+  <!-- end breadcrumb section -->
+  
+  <style>
+  
+  :root {
+    --card-line-height: 1.2em;
+    --card-padding: 1em;
+    --card-radius: 0.5em;
+    --color-green: #558309;
+    --color-gray: #e2ebf6;
+    --color-dark-gray: #fff;
+    --radio-border-width: 2px;
+    --radio-size: 1.5em;
+  }
+  
+  body {
+    background-color: #f2f8ff;
+    color: #263238;
+    font-family: 'Noto Sans', sans-serif;
+    margin: 0;
+    padding: 2em 6vw;
+  }
+  
+  .grid {
+    display: grid;
+    grid-gap: var(--card-padding);
+    margin: 0 auto;
+    max-width: 60em;
+    padding: 0;
+   
+    @media (min-width: 42em) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: var(--card-radius);
+    position: relative;
+    
+   
+  }
+  
+  .radio {
+    font-size: inherit;
+    margin: 0;
+    position: absolute;
+    right: calc(var(--card-padding) + var(--radio-border-width));
+    top: calc(var(--card-padding) + var(--radio-border-width));
+  }
+  
+  
+  
+  .plan-details {
+    border: var(--radio-border-width) solid var(--color-gray);
+    border-radius: var(--card-radius);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: var(--card-padding);
+    transition: border-color 0.2s ease-out;
+  }
+  
+  .card:hover .plan-details {
+    border-color: var(--color-dark-gray);
+  }
+  
+  .radio:checked ~ .plan-details {
+    border-color: var(--color-green);
+  }
+  
+  .radio:focus ~ .plan-details {
+    box-shadow: 0 0 0 2px var(--color-dark-gray);
+  }
+  
+  .radio:disabled ~ .plan-details {
+    color: var(--color-dark-gray);
+    cursor: default;
+  }
+  
+  .radio:disabled ~ .plan-details .plan-type {
+    color: var(--color-dark-gray);
+  }
+  
+  .card:hover .radio:disabled ~ .plan-details {
+    border-color: var(--color-gray);
+    box-shadow: none;
+  }
+  
+  .card:hover .radio:disabled {
+      border-color: var(--color-gray);
+    }
+  
+  .plan-type {
+    color: var(--color-green);
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1em;
+  }
+  
+  .plan-cost {
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding: 0.5rem 0;
+  }
+  
+  .slash {
+    font-weight: normal;
+  }
+  
+  .plan-cycle {
+    font-size: 2rem;
+    font-variant: none;
+    border-bottom: none;
+    cursor: inherit;
+    text-decoration: none;
+  }
+  
+  .hidden-visually {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+  </style>
+  
+  
+  
+<div>
+
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+         
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3">{{user.first_name}} {{user.last_name}}</h5>
+                  <!-- <p class="text-muted mb-1">Full Stack Developer</p> -->
+                  <!-- <p class="text-muted mb-4">{{user.house_name}}, {{user.street_name}}, {{user.landmark}}</p> -->
+                  
+                </div>
+              </div>
+              
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Full Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user.first_name}} {{user.last_name}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user.email}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Phone</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{user.phone}}</p>
+                    </div>
+                  </div>
+                  
+                  <hr>
+                  <div class="text-center" >
+                    <a href="/wallet"><button class="btn btn-success" >Wallet</button></a>
+                    
+                    <p >Balance : {{wallet.Balance}}</p>
+                  </div>
+                  
+
+
+                </div>
+              </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</div>
+<div class="grid">
+    <a href="/add_address"><button class="btn btn-success" >Add New Address</button></a>
+    {% if address %}
+    
+      
+          {% for item in address %}
+            <label class="card">
+              <!-- <div class="text-center">
+                {% if item.default_address %}
+                  <span>Default</span>
+                {% endif %}
+              </div> -->
+              
+              <div>          
+              <span class="plan-details">
+                <span class="plan-type">{{item.name}}</span>
+                <!-- <span class="plan-cost">$0<span class="slash">/</span><abbr class="plan-cycle" title="month">mo</abbr></span> -->
+                
+                
+                <span>{{item.house_name}}</span>
+                <span>{{item.street_name}}</span>
+                <span>{{item.landmark}}</span>
+                <span>{{item.city}}</span>
+                <span>PHONE :+91 {{item.phone_number}}</span>
+                <span>PIN : {{item.pin_code}}</span>
+                <div>
+                 <button onclick="showSwal('delete-address', '{{item.id}}')" class="btn btn-danger" >Delete</button>
+                <a href="/update_address_user/{{item.id}}"><button class="btn btn-success" >Update</button></a>
+                </div>
+                
+              </span>
+            </label>
+          {% endfor %}  
+            
+    
+  
+    {% else %}
+  
+      <div>
+        <h1>
+          No Address is added....
+  
+        </h1>
+        
+  
+      </div>
+      {% endif %}
+    <!-- <label class="card">
+      <input name="plan" class="radio" type="radio">
+      <span class="hidden-visually">Pro - $50 per month, 5 team members, 500 GB per month, 5 concurrent builds</span>
+      <span class="plan-details" aria-hidden="true">
+        <span class="plan-type">Pro</span>
+        <span class="plan-cost">$50<span class="slash">/</span><span class="plan-cycle">mo</span></span>
+        <span>5 team members</span>
+        <span>500 GB/mo</span>
+        <span>5 concurrent builds</span>
+      </span>
+    </label>
+    <label class="card">
+      <input name="plan" class="radio" type="radio">
+      <span class="hidden-visually">Business - $200 per month, 5+ team members, 1000 GB per month, Unlimited builds</span>
+      <span class="plan-details" aria-hidden="true">
+        <span class="plan-type">Business</span>
+        <span class="plan-cost">$200<span class="slash">/</span><span class="plan-cycle">mo</span></span>
+        <span>5+ team members</span>
+        <span>1000 GB/mo</span>
+        <span>Unlimited builds</span>
+      </span>
+    </label> -->
+  </div>
+
+
+
+{% endblock %}

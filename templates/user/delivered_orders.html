@@ -1,0 +1,101 @@
+
+
+{% extends 'user/userbase.html' %}
+{% load static %}
+
+
+
+        {% block content %}
+
+        <!-- breadcrumb-section -->
+
+
+        <div class="container">
+          <div class="row">
+          
+            <div class="col-md-6">
+              <h2>Delivered orders</h2>
+              
+            </div>
+            <div class="col-md-6">
+              
+              <a href="/order_user"><button class="btn btn-success" >Order History</button></a>
+              <a href="/active_orders"><button class="btn btn-success" >Active Orders</button></a>
+            </div>
+            
+            
+            
+          </div>
+        </div>
+        <br>
+        
+      
+      <!-- end breadcrumb section -->
+        <div class="container" >
+          <div class="row" >
+      <table class="table" id="userdeliveredorders">
+          <thead>
+            <tr>
+              <th scope="col">Order Id</th>
+        
+              <th scope="col"> Amount </th>
+              <th scope="col"> Payment status </th>
+              <th scope="col"> Payment method </th>
+              <th scope="col">Order status</th>
+              <th scope="col">Orederd at</th>
+              <th scope="col">View Order</th>
+              <th scope="col">Return</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in order %}
+            <tr>
+              <td>{{item.id}}</td>
+              
+              <td>{{item.amount}}</td>
+                            {% if item.is_paid %}
+                            <td>Paid</td>
+                            {% else %}
+                            <td>Not Paid</td>
+                            {% endif %}
+              <td>{{item.payment_method}}</td>
+              <td>{{item.status}}</td>
+              <td>{{item.created_at}}</td>
+              <td><a href="/view_order_user/{{item.id}}"><button class="btn-success" >View order</button></a></td>
+              <td><button  onclick="showSwal('return-order', '{{item.id}}')" class="btn btn-danger" >Return</button></td>
+              
+              
+            </tr>
+          {% endfor %} 
+          </tbody>
+        </table>
+        <script>
+          $(document).ready( function () {
+            $('#userdeliveredorders').DataTable();
+        } );
+        </script>
+      </div>
+            <script>
+              function showSwal(return_order){
+                console.log('hihihihi')
+              }
+            </script>
+        </div>
+        <!-- <div class="text-center">
+          {% if order.has_previous %}
+        <a  href="{% url 'delivered_orders' %}?page={{order.previous_page_number}}"> <button class="btn-success" > Prev</button></a>
+        {% endif %}
+        {{order}}
+        {% if order.has_next %}
+        <a  href="{% url 'delivered_orders' %}?page={{order.next_page_number}}"><button class="btn-success" >Next</button></a>
+        {% endif %}
+
+        </div> -->
+      
+      
+
+
+
+        {% endblock %}
+
+        

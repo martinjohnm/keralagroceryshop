@@ -1,0 +1,169 @@
+{% extends 'admin/adminbase.html' %}
+{% block sidebar %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="#" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="assets/images/faces/face1.jpg" alt="profile">
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column">
+          <span class="font-weight-bold mb-2">David Grey. H</span>
+          <span class="text-secondary text-small">Project Manager</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/admin_home">
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/customers">
+        <span class="menu-title">Customers</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/products">
+        <span class="menu-title">Products</span>
+        <i class="mdi mdi-contacts menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/coupons">
+        <span class="menu-title">Coupons</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/offers">
+        <span class="menu-title">Offers</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/categories">
+          <span class="menu-title">Categories</span>
+          <i class="mdi mdi-chart-bar menu-icon"></i>
+        </a>
+      </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="/orders">
+        <span class="menu-title">Orders</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/sales">
+        <span class="menu-title">Sales</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    
+    <!-- <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Sales</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="general-pages">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/sales_report"> Daily sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_weekly"> Weekly sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_yearly"> Yearly sales </a></li>
+          
+        </ul>
+      </div>
+    </li> -->
+  </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+<div class="main-panel">
+  <!-- <div class="content-wrapper"> -->
+            <div class="col-lg-12 stretch-card">
+              
+                <div class="card">
+                  
+                  <div class="card-body">
+                    <!-- <h2 class="card-title">Orders</h2> -->
+                    <h2 >Orders</h2>
+                    <a href="/orders"><button class="btn-success me-auto" >View All Orders</button></a>
+                      <!-- <p class="text-center"><a href="/blocked_customers">View Blocked Customers</a></p> -->
+                      {% for message in messages %}
+                      <p><span class="text-danger">{{message}}</span></p>
+                  {%endfor%} 
+                    <table class="table table-bordered" id="myorderview">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                            <th>Name</th>
+                          
+                          <th> Amount </th>
+                          <th> Payment status </th>
+                          <th> Payment method </th>
+                        <th>Order status</th>
+                        <th>Orederd at</th>
+                        <th>Edit</th>
+                        <th>View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in order %}
+                        <tr>
+                          <td>{{item.id}}</td>
+                            <td>  
+                              {{item.name}}
+                            </td> 
+                          
+                          <td>{{item.amount}} </td>
+                            {% if item.is_paid %}
+                            <td>Paid</td>
+                            {% else %}
+                            <td>Not Paid</td>
+                            {% endif %}
+                          <td> {{item.payment_method}} </td>
+                          <td>{{item.status}}</td>
+                          <td>{{item.created_at}}</td>
+                          <td>
+                            
+                            <input type="hidden" value="{{item.id}}" id="accept_order_{{item.id}}">
+                            <a ><button onclick="showSwal('accept_order','{{item.id}}')" class="btn-success" style="color: Black; font-weight:bold; " >Accept</button></a>
+                            <input type="hidden" value="{{item.id}}" id="reject_order">
+                            <a ><button onclick="showSwal('reject_order','{{item.id}}')"  class="btn-danger" style="color: Black; font-weight:bold; " >Reject</button></a>
+                          </td>
+                          <td>
+                            <a href="/view_order_admin/{{ item.id }}"><span class="glyphicon glyphicon-pencil" ><button  class=" btn-success">View</button></span></a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <script>
+                      $(document).ready( function () {
+                        $('#myorderview').DataTable();
+                    } );
+                    </script>
+                    <!-- <div class="text-center">
+                        {% if order.has_previous %}
+                        <a  href="{% url 'order_view' %}?page={{order.previous_page_number}}"> <button class="btn-success" > Prev</button></a>
+                        {% endif %}
+                        {{order}}
+                        {% if order.has_next %}
+                        <a  href="{% url 'order_view' %}?page={{order.next_page_number}}"><button class="btn-success" >Next</button></a>
+                        {% endif %}
+                    </div>     -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+
+{% endblock %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <h1>Hello cart</h1>
+     
+    <script>
+        function getCookie(name) {
+            // Split cookie string and get all individual name = value pairs in an array 
+            var cookieArr = document.cookie.split(";");
+
+            // loop through the array elements 
+            for (var i = 0; i< cookieArr.length;i++){
+                var cookiePair = cookieArr[i].split("=");
+                /* removing whitespaces at the beginning of the cookie name 
+                and comapre it with the given string */
+                if (name == cookiePair[0].trim()){
+                    // Decode the cookie value and return 
+                    return decodeURIComponent(cookiePair[1]);
+
+                }
+            }
+            // return null if not found 
+            return null;
+
+                
+                    
+            }
+            var cart = JSON.parse(getCookie('cart'))
+            //console.log('Cart :', cart)
+
+            if (cart == undefined){
+                cart = {}
+                console.log("cart was created")
+                document.cookie = 'cart = ' + JSON.stringify(cart) + ";domain=;path=/"
+            }
+
+            console.log('Cart :',cart)
+
+    </script>
+
+
+</body>
+</html>

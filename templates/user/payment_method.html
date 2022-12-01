@@ -1,0 +1,237 @@
+{% extends 'user/userbase.html' %}
+{% block content %}
+<!-- breadcrumb-section -->
+<!-- <div class="breadcrumb-section breadcrumb-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <p>Fresh and Organic</p>
+          <h1>Check Out Product</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- end breadcrumb section -->
+<div class="col-lg-8 offset-lg-2 text-center">
+  
+    <h2>Check Out Product</h2>
+</div>
+<br><br><br>
+<section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-8 ftco-animate">
+        {% for item in address %}
+            <form action="/update_address/{{address_id}}" class="billing-form">
+              <div class="col-lg-8 offset-lg-2 text-center"><h3 class="mb-4 billing-heading">Billing Details</h3></div>
+
+              <!-- <div class="col-lg-8 offset-lg-2 text-right me-0"><button class="btn-success">Change Address</button></div> -->
+
+              
+                          
+                <div class="row align-items-end">
+                    <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="firstname">Name</label>
+                    <input type="text" class="form-control" value="{{item.name}}">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="House name">House Name</label>
+                    <input type="text" class="form-control" value="{{item.house_name}}" placeholder="">
+                  </div>
+              </div>
+              <div class="w-100"></div>
+                  <!-- <div class="col-md-12">
+                      <div class="form-group">
+                          <label for="country">State / Country</label>
+                          <div class="select-wrap">
+                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                        <select name="" id="" class="form-control">
+                            <option value="">France</option>
+                          <option value="">Italy</option>
+                          <option value="">Philippines</option>
+                          <option value="">South Korea</option>
+                          <option value="">Hongkong</option>
+                          <option value="">Japan</option>
+                        </select>
+                      </div>
+                      </div>
+                  </div> -->
+                  <div class="w-100"></div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                      <label for="streetaddress">Street name</label>
+                    <input type="text" class="form-control" value="{{item.street_name}}">
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="streetaddress">Landmark</label>
+                    <input type="text" class="form-control" value="{{item.landmark}}">
+                  </div>
+                  </div>
+                  <div class="w-100"></div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                      <label for="towncity">City</label>
+                    <input type="text" class="form-control" value="{{item.city}}">
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="postcodezip">Pincode</label>
+                    <input type="text" class="form-control" value="{{item.pin_code}}">
+                  </div>
+                  </div>
+                  <div class="w-100"></div>
+                  <div class="col-md-12">
+                  <div class="form-group">
+                      <label for="phone">Phone</label>
+                    <input type="text" class="form-control" value="+91{{item.phone_number}}">
+                  </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="emailaddress">Email Address</label>
+                    <input type="text" class="form-control" placeholder="">
+                  </div> -->
+              </div>
+              <div class="w-100"></div>
+              <div class="col-md-12">
+                  <div class="form-group mt-4">
+                                      
+                                        
+                                        <a href="/update_address/{{address_id}}"> <button class="btn btn-danger">Update address</button> </a>
+                                    
+                                  </div>
+              </div>
+              </div>
+            </form><!-- END -->
+
+            {% endfor %}
+
+            <div class="row mt-5 pt-3 d-flex">
+                <div class="col-md-6 d-flex">
+                    <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                        <h3 class="billing-heading mb-4">Cart Total</h3>
+                        <p class="d-flex">
+                                  <!-- <span>Subtotal</span> -->
+                                  {% if coupon_avilable %}
+                                      <strong><span id="cart_total"><del style="color: red;">{{cart_total}}</del></span></strong>
+                                      <td><strong><span style="color: green; font-size: 1.5em;" id="cart_total">{{offer_with_coupon}}</span> Rs</td>
+                        
+                                  {% else %}
+                                      <td><strong><span style="color: green; font-size: 1.5em;" id="cart_total">{{offer_with_coupon}}</span></strong></td>
+
+                                  {% endif %}
+                                  <!-- <span style="color: green; font-size: 1.5em;">     <strong>{{cart_total}}</strong> </span> -->
+                              </p>
+
+                              <div>
+                        
+                                {% for message in messages %}
+                                    <p><span class="text-danger">{{message}}</span></p>
+                                {%endfor%} 
+                                <form action="/apply_coupon/{{address_id}}" method="GET">
+                                    <input type="hidden" name="total" value="" id="subtotal">
+                                    <input class="mt-3" placeholder="PASTE COUPON CODE" type="text" value="" name="coupon_code" id="coupon_code">
+                                
+                                    <button type="submit"  class="btn btn-success mt-3">Redeem Now</button>
+                                    
+                                </form>
+    
+                                <script>
+                                    function coupon(quantity, id){
+                                        
+                                        $.ajax({
+                                        type:'GET',
+                                        url:'/plus_cart_quantity/'+quantity+'/'+id,
+                                        
+                                    })
+    
+                                    
+                                    }
+                                                            
+                        
+                                </script>
+                                
+                            
+                            </div>
+                             
+                              </div>
+                </div>
+                <div class="col-md-6 d-flex">
+                    <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                        {% if not prolist %}
+                        <h3 class="billing-heading mb-4">Payment Method</h3>
+                        {% endif %}
+                        <form action="/choose_payment" method="GET">
+
+                          <input type="hidden" name="cart_total" value="{{cart_total}}">
+
+                                  {% if prolist %}
+                                    <div>
+
+                                      {% if prolistlen == 1 %}
+
+                                      <p>Unfortunately product : <span  style="color: red; font-weight:bolder;" >{% for item in prolist %} {{item.name}}{% endfor %} </span>is not available, remove it to continue checkout!..</p>
+                                      <p style="color: green; font-weight:bolder;"><a href="/cartview">Remove here</a></p>
+
+                                      {% elif prolistlen > 1 %}
+                                      <p>Unfortunately products : <span  style="color: red; font-weight:bolder;" >{% for item in prolist %} {{item.name}},{% endfor %} </span>are not available, remove them to continue checkout!..</p>
+                                      
+                                      {% endif %}
+                                        
+                                       
+                                      
+                                    </div>
+                                  {% else %}
+                                    <div class="form-group">
+                                          <div class="col-md-12">
+                                                  <div class="radio">
+                                                    <label><input type="radio" value="COD" name="optradio" class="mr-2" checked > Cash on delivery</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="col-md-12">
+                                                  <div class="radio">
+                                                    <label><input type="radio" value="RAZORPAY"  name="optradio" class="mr-2">Razorpay</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="col-md-12">
+                                                  <div class="radio">
+                                                    <label><input type="radio" value="PAYPAL" name="optradio" class="mr-2">Paypal</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <div class="col-md-12">
+                                                  
+                                              </div>
+                                          </div>
+                                          
+                                          <button type="submit" class="btn btn-success">Place Order</button>
+                                    </div>
+                                  {% endif %}
+                                   
+                            
+
+                        </form> 
+                        <!-- <a href="/shop"><button class="btn btn-danger" >Cancel order</button></a>      -->
+                </div>
+              </div>
+              
+            </div>
+        </div> <!-- .col-md-8 -->
+      </div>
+    </div>
+  </section> <!-- .section -->
+
+{% endblock %}

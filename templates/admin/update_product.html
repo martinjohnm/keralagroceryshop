@@ -1,0 +1,172 @@
+
+
+    {% extends 'admin/adminbase.html' %}
+    {% block sidebar %}
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item nav-profile">
+          <a href="#" class="nav-link">
+            <div class="nav-profile-image">
+              <img src="https://lh3.googleusercontent.com/ogw/AOh-ky3dezTdavJZcNhjUfB3IMP29-Zp1uK1RMaDpERCjg=s32-c-mo" alt="profile">
+              <span class="login-status online"></span>
+              <!--change to offline or busy as needed-->
+            </div>
+            <div class="nav-profile-text d-flex flex-column">
+              <span class="font-weight-bold mb-2">Martin John M</span>
+              <span class="text-secondary text-small">Project Manager</span>
+            </div>
+            <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/admin_home">
+            <span class="menu-title">Dashboard</span>
+            <i class="mdi mdi-home menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="/customers">
+            <span class="menu-title">Customers</span>
+            <i class="mdi mdi-home menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/products">
+            <span class="menu-title">Products</span>
+            <i class="mdi mdi-contacts menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/coupons">
+            <span class="menu-title">Coupons</span>
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/offers">
+            <span class="menu-title">Offers</span>
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/categories">
+              <span class="menu-title">Categories</span>
+              <i class="mdi mdi-chart-bar menu-icon"></i>
+            </a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/orders">
+            <span class="menu-title">Orders</span>
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sales">
+            <span class="menu-title">Sales</span>
+            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+          </a>
+        </li>
+        
+        <!-- <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+            <span class="menu-title">Sales</span>
+            <i class="menu-arrow"></i>
+            <i class="mdi mdi-medical-bag menu-icon"></i>
+          </a>
+          <div class="collapse" id="general-pages">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="/sales_report"> Daily sales </a></li>
+              <li class="nav-item"> <a class="nav-link" href="/sales_report_weekly"> Weekly sales </a></li>
+              <li class="nav-item"> <a class="nav-link" href="/sales_report_yearly"> Yearly sales </a></li>
+              
+            </ul>
+          </div>
+        </li> -->
+      </ul>
+    </nav>
+    {% endblock %}
+    
+    {% block content %}
+    <div class="main-panel">
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title ">Update Product</h4>
+                    <p class=""><a href="/products"> <button class="btn btn-info" >View Products</button></a></p>
+                    
+                    <form class="forms-sample" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for message in messages %}
+                        <p><span class="text-danger">{{message}}</span></p>
+                    {%endfor%} 
+
+                    
+                  
+                    <div class="form-group">
+                        <label for="exampleInputName1">PRODUCT NAME</label>
+                        <input type="text" class="form-control" name="name" id="exampleInputName1" value="{{product.name}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">PRODUCT CATEGORY</label>
+                    
+                        <select class="form-control" value = "{{product.category}}" id="exampleSelectGender" name="category" class="form-control" >
+                            <option selected disabled value="{{product.category_id}}">{{product.category.name}}</option>
+                            {% for cat in cat %}
+                            <option value="{{cat.id}}">{{cat.name}}</option>
+                            {% endfor %}
+    
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword4">AVAILABLE QUANTITY IN KG</label>
+                        <input type="text" name="quantity" class="form-control" value="{{product.total_quantity}}" id="exampleInputPassword4">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleSelectGender">PRODUCT DESCRIPTION</label>
+                        <input type="text"  value="{{product.description}}" id="description" name="product_description" class="form-control">
+                      
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="exampleInputPassword4">PRICE</label>
+                        <input type="text" name="price" class="form-control" id="exampleInputPassword4" value={{product.price}}>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">Offer Percentage</label>
+                      <input type="tel" name="offer" class="form-control" id="exampleInputPassword4" value={{product.offer}}>
+                    </div>
+                    
+                    <div class="form-group col-md-6 my-3">
+                      <img src="{{product.image.url}}" alt="" style="width:100px; height:100px">
+                        <span class="imageupload">Image1</span><input type="file" class="form-control my-2" value="{{product.image.url}}" name="uploadFromPC" id="id_product_image">
+                        
+                    </div>
+                    
+                    <div class="form-group col-md-6 my-3">
+                      <img src="{{product.image2.url}}" alt="" style="width:100px; height:100px">
+                        <span class="imageupload">Image2</span><input type="file" class="form-control my-2" value="{{product.image2.url}}" name="uploadFromPC2" id="id_product_image">
+                        
+                    </div>
+                    
+                    <div class="form-group col-md-6 my-3">
+                      <img src="{{product.image3.url}}" alt="" style="width:100px; height:100px">
+                        <span class="imageupload">Image3</span><input type="file" class="form-control my-2" value="{{product.image3.url}}" name="uploadFromPC3" id="id_product_image">
+                        
+                    </div>
+                    
+                    
+                   
+                    
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    </form>
+                    
+                </div>
+              
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

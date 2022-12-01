@@ -1,0 +1,188 @@
+{% extends 'admin/adminbase.html' %}
+{% block sidebar %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="#" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="https://lh3.googleusercontent.com/ogw/AOh-ky3dezTdavJZcNhjUfB3IMP29-Zp1uK1RMaDpERCjg=s32-c-mo" alt="profile">
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column">
+          <span class="font-weight-bold mb-2">Martin John M</span>
+          <span class="text-secondary text-small">Project Manager</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/admin_home">
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/customers">
+        <span class="menu-title">Customers</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/products">
+        <span class="menu-title">Products</span>
+        <i class="mdi mdi-contacts menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/coupons">
+        <span class="menu-title">Coupons</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/offers">
+        <span class="menu-title">Offers</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/categories">
+          <span class="menu-title">Categories</span>
+          <i class="mdi mdi-chart-bar menu-icon"></i>
+        </a>
+      </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/orders">
+        <span class="menu-title">Orders</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    
+    <li class="nav-item active">
+        <a class="nav-link" href="/sales">
+          <span class="menu-title">Sales</span>
+          <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+        </a>
+      </li>
+    <!-- <li class="nav-item active">
+      <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Sales</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="general-pages">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/sales_report"> Daily sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_weekly"> Weekly sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_yearly"> Yearly sales </a></li>
+          
+        </ul>
+      </div>
+    </li> -->
+  </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+<div class="main-panel">
+  <!-- <div class="content-wrapper"> -->
+            <div class="col-lg-12 stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <!-- <h2 class="card-title">Orders</h2> -->
+                    <h2  >Daily orders</h2>
+                    <h2>Total Revanue generated : {{revenue}} Rs</h2>
+                      <!-- <p class="text-center"><a href="/blocked_customers">View Blocked Customers</a></p> -->
+                      {% for message in messages %}
+                      <p><span class="text-danger">{{message}}</span></p>
+                  {%endfor%}
+                   
+                  {% if order_today %}
+                    <table class="table table-bordered" id="salesdaily">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                            <th>Name</th>
+                          <th>Phone number</th>
+                          <th> Amount </th>
+                          
+                          <th> Payment method </th>
+                          <th>Date delivered</th>
+                          <th>Orederd at</th>
+                          
+                        <!-- <th>Edit</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in order_today %}
+                        <tr>
+                          <td>{{item.id}}</td>
+                            <td>  
+                              {{item.name}}
+                            </td> 
+                          <td >
+                            {{item.phone_number}}
+                          </td>
+                          <td>{{item.amount}} </td>
+                          
+                          <td> {{item.payment_method}} </td>
+                          <td>{{item.date_delivered}}</td>
+                          <td>{{item.created_at}}</td>
+                          
+                          <!-- <td>
+                            <a href="/order_accept/{{item.id}}"><button class="btn-success" style="color: Black; font-weight:bold; " >Accept</button></a>
+                            <a href="/order_reject/{{item.id}}"><button class="btn-danger" style="color: Black; font-weight:bold; " >Reject</button></a>
+                          </td> -->
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    <script>
+                      function pdf(){
+                        var element = document.getElementById('salesdaily');
+                        var opt = {
+                          margin:       1,
+                          filename:     'yearly_report.pdf',
+                          image:        { type: 'jpeg', quality: 0.98 },
+                          html2canvas:  { scale: 2 },
+                          jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+                         
+                        // New Promise-based usage:
+                        html2pdf().from(element).set(opt).save();
+                         
+                        // Old monolithic-style usage:
+                        html2pdf(element, opt);
+                      }
+                      </script>
+                    <div >
+                      <a href="{% url 'export_csv_daily' %}"><button class="btn btn-primary" >Export csv</button></a>
+                      <a href="{% url 'export_excel_daily' %}"><button class="btn btn-primary" >Export Excel</button></a>
+                      <button onclick="pdf()"   class="btn btn-primary"> Generate PDF</button>
+                    </div>
+                    {% else %}
+                    <h1>No orders today.....</h1>
+                    {% endif %}
+                    <script>
+                      $(document).ready( function () {
+                        $('#salesdaily').DataTable();
+                    } );
+                    </script>
+                    <!-- <div class="text-center">
+                      {% if order_today.has_previous %}
+                      <a  href="{% url 'sales_report' %}?page={{order_today.previous_page_number}}"> <button class="btn-success" > Prev</button></a>
+                      {% endif %}
+                      {{order_today}}
+                      {% if order_today.has_next %}
+                      <a  href="{% url 'sales_report' %}?page={{order_today.next_page_number}}"><button class="btn-success" >Next</button></a>
+                      {% endif %}
+                </div>   -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+
+{% endblock %}

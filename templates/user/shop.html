@@ -1,0 +1,154 @@
+{% extends 'user/userbase.html' %}
+
+
+{% block content %}
+
+<div class="product-section mt-150 mb-150">
+
+    
+    <!-- Section-->
+    <section >
+        
+        <div style="text-align: center;" class="container">
+<h1>Shop</h1>
+           
+            
+            
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                
+                
+                
+                {% for products in products %}
+                <div class="col mb-5">
+                    
+                    <div class="card h-100">
+                        <!-- Sale badge-->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        <!-- Product image-->
+                        <input type="hidden" value="{{products.id}}" class="prod_id">
+                        <a href="/product_view/{{products.id}}"><img class="card-img-top" src="{{products.image.url}}" alt="..." /></a>
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- offer percentage code  -->
+
+
+                                
+                            {% if products.category_offer == 0 and products.product_offer == 0 %}
+                            <p  style="color: green;">   </p><br>
+                            {% elif products.category_offer >= products.product_offer %}
+                                <p class="font-weight-bold" style="color: green;"> {{products.category_offer}} % off  </p>
+                            {% else %}
+                                <p class="font-weight-bold" style="color: green;">{{products.product_offer}} % off  </p>
+                            {% endif %}
+
+
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{products.name}}</h5>
+                                <!-- Product price-->
+                                {% if products.category_offer == 0 and products.product_offer == 0 %}
+                                    <span class="font-weight-bold" style="color: green; font-size: 1.5rem;">{{products.price}} Rs</span>
+                                        
+                                   
+                                    
+                                {% elif products.category_offer <= products.product_offer %}
+                                <span  style = "color: red; " ><del >{{products.price}} Rs</del></span>
+                                <span class="font-weight-bold " style="color: green; font-size: 1.5rem;">{{products.final_price}}</span> Rs
+                                    
+                                {% elif products.category_offer >= products.product_offer %}  
+                                <span  style = "color: red;" ><del >{{products.price}} Rs</del></span>
+                                <span class="font-weight-bold" style="color: green; font-size: 1.5rem;">{{products.final_price}}</span> Rs
+
+                               
+                                {% else %}
+                                <span class="font-weight-bold" style="color: green; font-size: 1.5rem;">{{products.price}} Rs</span>
+                                    
+                                {% endif %}  
+                    
+                                
+                            </div>
+                       
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- Product actions-->
+
+                    {% if products.total_quantity < 1 %}
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <b style="color: red;">Item out of stock</b>
+
+                            </div>
+                        </div>    
+                    {% elif  products.total_quantity >= 1 and products.total_quantity < 11 %}
+                        
+
+                    <p class="text-center">Hurry ! Only <span style="color: red;">{{products.total_quantity}}</span> Left </p>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <button class="btn btn-outline-dark mt-auto" onclick="cart('{{products.id}}'),showSwal('add_cart')" >Add To Cart</button> 
+                        </div>
+                    </div>
+                    {% else  %}
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <button class="btn btn-outline-dark mt-auto " onclick="cart('{{products.id}}'),showSwal('add_cart')" >Add To Cart</button>
+                        </div>
+                    </div>    
+                    {% endif %}   
+                        <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                        </div> -->
+                    </div>
+                    
+                </div>
+
+                <script type="text/javascript">
+            
+               
+                    function cart(pro_id){
+                            console.log('here')
+                            $.ajax({
+                            type:'GET',
+                            url:'/add_cart/'+pro_id,
+                         
+                        })
+                        }
+
+                        
+        
+                  
+                        
+                        
+                   
+                    
+                    
+                    </script> 
+                {% endfor %}
+                
+        </div>
+    </section>
+    
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    
+    
+</div>
+<!-- end products -->
+
+
+
+{% endblock %}
+
+

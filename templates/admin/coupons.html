@@ -1,0 +1,155 @@
+{% extends 'admin/adminbase.html' %}
+{% block sidebar %}
+{% load static %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="#" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="https://lh3.googleusercontent.com/ogw/AOh-ky3dezTdavJZcNhjUfB3IMP29-Zp1uK1RMaDpERCjg=s32-c-mo" alt="profile">
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column">
+          <span class="font-weight-bold mb-2">Martin John M</span>
+          <span class="text-secondary text-small">Project Manager</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/admin_home">
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/customers">
+        <span class="menu-title">Customers</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/products">
+        <span class="menu-title">Products</span>
+        <i class="mdi mdi-contacts menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="/coupons">
+        <span class="menu-title">Coupons</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/offers">
+        <span class="menu-title">Offers</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/categories">
+          <span class="menu-title">Categories</span>
+          <i class="mdi mdi-chart-bar menu-icon"></i>
+        </a>
+      </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/orders">
+        <span class="menu-title">Orders</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" href="/sales">
+        <span class="menu-title">Sales</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Sales</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="general-pages">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/sales_report"> Daily sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_weekly"> Weekly sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_yearly"> Yearly sales </a></li>
+          
+        </ul>
+      </div>
+    </li> -->
+  </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="main-panel">
+    <!-- <div class="content-wrapper"> -->
+      <div class="row">
+
+        
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">Coupons</h2>
+
+              <p ><a href="/add_coupon"> <button class="btn-success" >Add New Coupon</button></a></p>
+              <div class="table-responsive pt-3">
+                {% if coupon %}
+                <table class="table table-bordered" id="couponss">
+                  <thead>
+                    <tr>
+                      
+                      <th>
+                        Code
+                      </th>
+                      <th>
+                        Discount amount
+                      </th>
+                      <th>
+                        Minimum spent
+                      </th>
+                      <th>
+                        Delete
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for coupon in coupon %}
+                    <tr>
+                      <td>
+                        {{coupon.coupen_code}}
+                      </td>
+                      <td>
+                        {{coupon.discount_price}}
+                      </td>
+                      <td>
+                        {{coupon.minimum_amount}}
+                      </td>
+                      <td>
+                        <button onclick="showSwal('delete_coupon','{{coupon.id}}')" class="btn-danger" >Delete</button>
+                        <a href="/update_coupon/{{coupon.id}}"><button  class="btn-success" >Update</button></a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                <script>
+                  $(document).ready( function () {
+                    $('#couponss').DataTable();
+                } );
+                </script>
+                {% else %} 
+              <h1>No coupon is added...</h1>
+              {% endif %}  
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+{% endblock %}

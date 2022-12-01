@@ -1,0 +1,68 @@
+
+
+{% extends 'user/userbase.html' %}
+{% load static %}
+<script type="text/javascript" src="{% static 'user/js/cart.js' %}" ></script>
+
+
+        {% block content %}
+
+        <div class="breadcrumb-section breadcrumb-bg">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                  
+                  <h3>Wallet History</h3>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+        <!-- end breadcrumb section -->
+        <div class="container" >
+            <div class="row" >
+        <h3>Total Balance: {{wallet.Balance}} Rs</h3>        
+      <table class="table">
+          <thead>
+            <tr>
+              
+              <th scope="col"> Amount </th>
+              <th scope="col"> Method </th>
+              
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in wallet_transactions %}
+            <tr>
+             
+              
+              <td>{{item.amount}}</td>
+              <td>{{item.status}}</td>
+              
+            </tr>
+          {% endfor %} 
+          </tbody>
+        </table>
+    </div>
+    </div>
+        <div class="text-center">
+          {% if order.has_previous %}
+        <a  href="{% url 'active_orders' %}?page={{order.previous_page_number}}"> <button class="btn-success" > Prev</button></a>
+        {% endif %}
+        {{order}}
+        {% if order.has_next %}
+        <a  href="{% url 'active_orders' %}?page={{order.next_page_number}}"><button class="btn-success" >Next</button></a>
+        {% endif %}
+
+        </div>
+      
+      
+
+
+
+        {% endblock %}
+
+        

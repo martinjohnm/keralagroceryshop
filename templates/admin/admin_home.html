@@ -1,0 +1,225 @@
+
+{% extends 'admin/adminbase.html' %}
+{% block sidebar %}
+{% load static %}
+
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="#" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="https://lh3.googleusercontent.com/ogw/AOh-ky3dezTdavJZcNhjUfB3IMP29-Zp1uK1RMaDpERCjg=s32-c-mo" alt="profile">
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column">
+          <span class="font-weight-bold mb-2">Martin John M</span>
+          <span class="text-secondary text-small">Project Manager</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="/admin_home">
+        <span class="menu-title">Dashboard</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a class="nav-link" href="/customers">
+        <span class="menu-title">Customers</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/products">
+        <span class="menu-title">Products</span>
+        <i class="mdi mdi-contacts menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/coupons">
+        <span class="menu-title">Coupons</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/offers">
+        <span class="menu-title">Offers</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/categories">
+          <span class="menu-title">Categories</span>
+          <i class="mdi mdi-chart-bar menu-icon"></i>
+        </a>
+      </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/orders">
+        <span class="menu-title">Orders</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/sales">
+        <span class="menu-title">Sales</span>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" href="/sales_report">
+        <span class="menu-title">Sales</span>
+        <i class="mdi mdi-table-large menu-icon"></i>
+      </a>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Sales</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="general-pages">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/sales_report"> Daily sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_weekly"> Weekly sales </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/sales_report_yearly"> Yearly sales </a></li>
+          
+        </ul>
+      </div>
+    </li> -->
+  </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title">
+          <span class="page-title-icon bg-gradient-primary text-white me-2">
+            <i class="mdi mdi-home"></i>
+          </span> Dashboard
+        </h3>
+        
+        </div>
+ 
+    
+      <div class="row">
+
+
+        
+        
+                                                 <div class="col-md-6">
+                                                  <h1>Orders Chart</h1>
+                                                  <canvas id="myChart" style="width:100%;max-width:700px">
+                                                    <script>
+                                                      var xValues = ["confirmed_orders", "pending_orders", 'delivered_orders'];
+                                                      var yValues = ['{{confirmed_orders}}','{{pending_orders}}',"{{delivered_orders}}" ];
+            
+                                                      var barColors = [
+                                                        "#b91d47",
+                                                        "#00aba9",
+                                                        '#33FF4C' ,
+                                                      
+                                                      ];
+            
+                                                      new Chart("myChart", {
+                                                        type: "bar",
+                                                        data: {
+                                                          labels: xValues,
+                                                          datasets: [{
+                                                            backgroundColor: barColors,
+                                                            data: yValues
+                                                          }]
+                                                        },
+                                                        options: {
+                                                          title: {
+                                                            display: true,
+                                                            text:  "Orders"
+                                                          }
+                                                        }
+                                                      });
+                                                      </script>
+            
+                                                 </div>
+
+                                                 <div class="col-md-6">
+                                                  <h1>Orders for last week</h1>
+                                                  
+                                                    <canvas  id = 'lineChart' style="width:100%;max-width:700px" >
+                                                      <script>
+                                                        var xValues = ['{{yesterday_6}}','{{yesterday_5}}','{{yesterday_4}}','{{yesterday_3}}','{{yesterday_2}}','{{yesterday_1}}','yesterday','today'];
+                                                        var yValues = ['{{order_yesterday_6}}','{{order_yesterday_5}}','{{order_yesterday_4}}',"{{order_yesterday_3}}",'{{order_yesterday_2}}','{{order_yesterday_1}}','{{order_yesterday}}','{{order_today}}',
+                                                        '{{order_yesterday_2}}',
+                                                        '{{order_yesterday_1}}',
+                                                        '{{order_yesterday}}',
+                                                        ];
+              
+                                                        var barColors = [
+                                                          "#b91d47",
+                                                          "#00aba9",
+                                                          '#33FF4C' ,
+                                                        
+                                                        ];
+              
+                                                        new Chart("lineChart", {
+                                                          type: "line",
+                                                          data: {
+                                                            labels: xValues,
+                                                            datasets: [{
+                                                              backgroundColor: barColors,
+                                                              data: yValues
+                                                            }]
+                                                          },
+                                                          options: {
+                                                            title: {
+                                                              display: true,
+                                                              text:  "Orders"
+                                                            }
+                                                          }
+                                                        });
+                                                        </script>
+                                                  
+                                                </canvas>
+                                                
+                                                 </div>
+
+
+                                          
+
+
+                                          
+                                                </canvas>
+
+                                                
+                                      <div class="container">
+                                        <!-- <h1 class="container" >-----------</h1>
+                                                <h1 class="container">---------</h1>
+                                                <h1 class="container">------</h1> -->
+                                                <br><br><br><br><br>
+                                      <h3 class="text-center">Total revanue today: {{revenue_today}} Rs</h3>
+                                      <h3 class="text-center">Total revanue for the week : {{revenue_lastweek}} Rs</h3>
+                                      <h3 class="text-center">Total revanue for the year : {{revenue_lastyear}} Rs</h3>
+                                      </div>          
+
+                                                 
+        
+
+        
+              
+          
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
+    <footer class="footer">
+     
+    </footer>
+    <!-- partial -->
+  </div>
+{% endblock %}
