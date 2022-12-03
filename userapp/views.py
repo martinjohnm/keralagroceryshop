@@ -44,11 +44,11 @@ def user_home(request):
     if 'user_id' in request.session:
         product = Product.objects.all()
         log = True
-        return render(request, 'user/shop.html', {'log': log, "product": product, 'category': category})
+        return render(request, 'user/index.html', {'log': log, "product": product, 'category': category})
     else:
         product = Product.objects.all()
         log = False
-        return render(request, 'user/shop.html', {"product": product, 'category': category, 'log': log})
+        return render(request, 'user/index.html', {"product": product, 'category': category, 'log': log})
 
 
 # def user_login(request):
@@ -232,7 +232,7 @@ def shop(request):
         customer = customer_obj.id
         cat = Category.objects.all()
         log = False
-        return render(request, 'user/shop.html',
+        return render(request, 'user/index.html',
                       {'log': log, 'products': products, "cat": cat, 'category': category, 'customer': customer,
                        'search_icon': search_icon}, )
     else:
@@ -243,7 +243,7 @@ def shop(request):
         cat = Category.objects.all()
         log = True
 
-        return render(request, 'user/shop.html', {'products': products, "cat": cat, 'category': category, 'log': log,
+        return render(request, 'user/index.html', {'products': products, "cat": cat, 'category': category, 'log': log,
                                                   'search_icon': search_icon}, )
 
 
