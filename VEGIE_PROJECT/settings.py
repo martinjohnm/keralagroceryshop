@@ -1,7 +1,4 @@
 
-
-
-
 """
 Django settings for VEGIE_PROJECT project.
 
@@ -15,11 +12,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import environ
-env = environ.Env() 
+env = environ.Env()
 environ.Env.read_env()
- 
+
 import cloudinary_storage
-  
+
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG =True
 
 ALLOWED_HOSTS = ['*']
 
@@ -53,7 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'userapp',
     'adminapp',
-    
+
     'cart',
     'cloudinary_storage',
     'cloudinary',
@@ -63,7 +60,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -105,7 +102,7 @@ WSGI_APPLICATION = 'VEGIE_PROJECT.wsgi.application'
 
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
        'NAME': env('DBNAME'),
        'USER': env('USERNAME'),
        'PASSWORD': env('PASSWORD'),
@@ -158,18 +155,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.Accounts'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    
-]
+#STATICFILES_DIRS = [
+#    BASE_DIR / "static",
+
+#]
+
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 AUTHENTICATION_BACKENDS = ('accounts.backend.AccountsBackend', 'django.contrib.auth.backends.ModelBackend',)
 
-# Base url to serve media files  
-MEDIA_URL = '/media/'  
-  
-# Path where media is stored  
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 CART_SESSION_ID = 'cart'
 
@@ -185,10 +185,9 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME':env('CLOUD_NAME'),
     'API_KEY':env('CLOUDINARY_API_KEY'),
     'API_SECRET':env('CLOUDINARY_API_SECRET'),
-    
+
 
 
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 
