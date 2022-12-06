@@ -315,7 +315,7 @@ def category_list(request, id):
                       {'products': products, 'category': category, 'log': log, 'cat': cat})
     else:
         category = Category.objects.all()
-
+        cat = Category.objects.get(id=id)
         products = Product.objects.filter(category_id=id)
         print(products)
         log = True
@@ -983,7 +983,8 @@ def payment_failed(request):
 def order_user(request):
     category = Category.objects.all()
     if "user_id" in request.session:
-        order = OrderTable.objects.all().order_by('created_at').values()
+        user = Accounts.objects.get(email=request.session['user_id'])
+        order = OrderTable.objects.filter(user=user).order_by('created_at').values()
 
         p = Paginator(order, 10)
         page_num = request.GET.get('page', 1)
@@ -1003,7 +1004,8 @@ def order_user(request):
 def active_orders(request):
     category = Category.objects.all()
     if "user_id" in request.session:
-        order = OrderTable.objects.filter(Q(status='Confirmed') | Q(status='Pending')).order_by('created_at').values()
+        user = Accounts.objects.get(email=request.session['user_id'])
+        order = OrderTable.objects.filter((Q(status='Confirmed') | Q(status='Pending')),user=user).order_by('created_at').values()
         products = OrderItem.objects.all()
         p = Paginator(order, 10)
         page_num = request.GET.get('page', 1)
@@ -1045,7 +1047,8 @@ def active_order_products(request, id):
 def delivered_orders(request):
     if "user_id" in request.session:
         category = Category.objects.all()
-        order = OrderTable.objects.filter(status='Delivered')
+        user = Accounts.objects.get(email=request.session['user_id'])
+        order = OrderTable.objects.filter(status='Delivered',user=user )
 
         p = Paginator(order, 10)
         page_num = request.GET.get('page', 1)
