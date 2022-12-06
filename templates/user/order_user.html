@@ -31,7 +31,8 @@
   <!-- end breadcrumb section -->
   <div class="container" >
     <div class="row" >
-<table class="table" id="userordersorders">
+{% if order %}
+      <table class="table" id="userordersorders">
     <thead>
       <tr>
         <th scope="col">Order Id</th>
@@ -66,6 +67,9 @@
         {% endfor %}
     </tbody>
   </table>  
+  {% else %}
+  <h2>No orders ..</h2>
+  {% endif %}
   <script>
     $(document).ready( function () {
       $('#userordersorders').DataTable();
