@@ -99,6 +99,7 @@
               <a class="text-right" href="/coupons"><button class="btn-success">Add Coupons</button></a>
               
               <div class="table-responsive pt-3">
+          {% if products %}
                 <table class="table table-bordered" id="myproducts">
                   <thead>
                     <tr>
@@ -163,6 +164,9 @@
                 {% endfor %}
                   </tbody>
                 </table>
+                {% else %}
+                <h2>No products added..</h2>
+                {% endif %}
                 <script>
                   $(document).ready( function () {
                     $('#myproducts').DataTable();
